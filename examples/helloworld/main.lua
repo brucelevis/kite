@@ -1,5 +1,6 @@
 local kite = require 'kite'
 local window = require 'kite.window'
+local gfx = require 'kite.graphics'
 
 
 local game = {}
@@ -8,6 +9,8 @@ function game.update(dt)
 end
 
 function game.draw()
+	gfx.clear(0xffffffff)
+	gfx.draw('examples/asset/icon.png', 100, 100)
 end
 
 function game.mouse(what, x, y, who)

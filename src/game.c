@@ -15,6 +15,8 @@ game_run() {
 		G->kite->update(dt);
 		
 		glClear(GL_COLOR_BUFFER_BIT);
+		G->kite->draw();
+		G->renderer->commit();
 	
 		glfwPollEvents();
 		glfwSwapBuffers(hwnd);
@@ -27,6 +29,7 @@ void
 game_destroy () {
 	G->kite->destroy();
 	G->window->destroy();
+	G->renderer->destroy();
 	free(G);
 }
 
@@ -40,6 +43,7 @@ create_game(const char *gamedir) {
 
 	G->kite = create_kite(gamedir); 	if (G->kite == NULL)     {free(G); exit(EXIT_FAILURE);}
 	G->window = create_window();		if (G->window == NULL)   {G->kite->destroy(); free(G); exit(EXIT_FAILURE);}
+	G->renderer = create_renderer();	if (G->renderer == NULL) {G->kite->destroy(); G->window->destroy(); free(G); exit(EXIT_FAILURE);}
 
 	if (G->kite->load()) {
 		G->kite->destroy();

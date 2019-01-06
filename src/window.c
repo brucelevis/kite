@@ -3,6 +3,7 @@
 #include "window.h"
 #include "game.h"
 #include "kite.h"
+#include "util.h"
 
 
 extern Game *G;
@@ -71,9 +72,9 @@ window_init() {
 		icon_path = G->kite->conf.window.icon;
 
 	GLFWimage icon;
-	icon.pixels = stbi_load(icon_path, &icon.width, &icon.height, 0, 4);
+	icon.pixels = load_image(icon_path, &icon.width, &icon.height, NULL, false);
 	glfwSetWindowIcon(handle, 1, &icon);
-	stbi_image_free(icon.pixels);
+	destroy_image(icon.pixels);
 
 
 	// ---  set callback  --------------------------------------------

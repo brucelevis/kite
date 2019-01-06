@@ -3,6 +3,7 @@
 
 #include "lkite.h"
 #include "lwindow.h"
+#include "lgraphics.h"
 
 
 #define KITE_UPDATE 1
@@ -270,11 +271,8 @@ kite_init(const char *gamedir) {
 	luaL_openlibs(L);
 	luaL_requiref(L, "kite.core", lib_kite, 0);
 	luaL_requiref(L, "window.core", lib_window, 0);
-
-	// luaL_requiref(L, "graphics.core", lib_graphics, 0);
-	// luaL_requiref(L, "font.core", lib_font, 0);
-	// luaL_requiref(L, "audio.core", lib_audio, 0);
-	lua_pop(L, 2);
+	luaL_requiref(L, "graphics.core", lib_graphics, 0);
+	lua_pop(L, 3);
 	if (load_conf(L, gamedir) || load_main(L, gamedir)) {
 		return 1;
 	}

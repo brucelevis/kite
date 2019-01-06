@@ -1,6 +1,6 @@
 #include "game.h"
+#include "util.h"
 #include "lwindow.h"
-#define STB_IMAGE_IMPLEMENTATION
 
 extern Game * G;
 
@@ -48,9 +48,9 @@ lset_icon(lua_State *L) {
 	const char *filename;
 
 	filename = luaL_checkstring(L, 1);
-	icon.pixels = stbi_load(filename, &icon.width, &icon.height, 0, 4);
+	icon.pixels = load_image(filename, &icon.width, &icon.height, NULL, false);
 	glfwSetWindowIcon(G->window->handle, 1, &icon);
-	stbi_image_free(icon.pixels);
+	destroy_image(icon.pixels);
 	return 0;
 }
 

@@ -67,15 +67,15 @@ function kite.start(callback)
 	cb.update = assert(callback.update)
 
 	cb.mouse = function(what, x, y, who)
-		return callback.mouse(mouse_event[what], x, y, who and mouse_name[who])
+		callback.mouse(mouse_event[what], x, y, who and mouse_name[who])
 	end
 
 	cb.keyboard = function(key, what)
 		key = key_name[key]
-		if not key then 
-			return
-		end
-		return callback.keyboard(key, key_event[what])
+		what = key_event[what]
+		if not key then return end
+
+		callback.keyboard(key, what)
 	end
 
 	cb.textinput = function (code)

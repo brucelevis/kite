@@ -8,13 +8,23 @@
 #include <stdbool.h>
 #include <unistd.h>
 
+#define GLFW_INCLUDE_NONE
+#include <glad/glad.h>
 #include <glfw/glfw3.h>
 
 #include <lua.h>
 #include <lauxlib.h>
 #include <lualib.h>
-
 #include <stb_image.h>
+
+
+#define FREE(p); if(p) {free(p); p = NULL;}
+
+#define R(c) ((c>>24)&0xFF)/255.0f
+#define G(c) ((c>>16)&0xFF)/255.0f
+#define B(c) ((c>>8) &0xFF)/255.0f
+#define A(c) (c      &0xFF)/255.0f
+
 
 static inline void
 ASSERT(int ok, const char * msg) {
@@ -24,8 +34,6 @@ ASSERT(int ok, const char * msg) {
 	}
 }
 
-
-#define FREE(p); if(p) {free(p); p = NULL;}
 
 
 #endif

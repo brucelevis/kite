@@ -1,4 +1,4 @@
-CFLAGS = -O0 -Wall -Isrc -Isrc/renderer -Iluaclib -I3rd/include -I3rd/src -I3rd/lua
+CFLAGS = -s -O0 -Wall -Isrc -Isrc/renderer -Iluaclib -I3rd/include -I3rd/lua
 LINK = -L3rd/lib -lglfw3 -lgdi32 -lopengl32
 
 SRC := \
@@ -6,11 +6,14 @@ SRC := \
 	src/game.c \
 	src/kite.c \
 	src/window.c \
+	src/util.c \
+	src/renderer.c \
+	src/renderer/manager.c \
 
 LUACLIB := \
 	luaclib/lkite.c \
 	luaclib/lwindow.c \
-	# luaclib/lgraphics.c \
+	luaclib/lgraphics.c \
 	# luaclib/lfont.c \
 	# luaclib/laudio.c \
 
@@ -53,11 +56,11 @@ LUASRC := \
 
 THIRD_PARTY := \
 	3rd/src/glad.c \
-	3rd/src/stb_vorbis.c \
+	# 3rd/src/stb_vorbis.c \
 
 
 .PHONY : kite
 
 
 kite:
-	gcc $(CFLAGS) $(SRC) $(LUASRC) $(LUACLIB) -o kite.exe $(LINK)
+	gcc $(CFLAGS) $(SRC) $(LUASRC) $(LUACLIB) $(THIRD_PARTY) -o kite.exe $(LINK)
