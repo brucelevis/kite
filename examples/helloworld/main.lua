@@ -1,4 +1,5 @@
 local kite = require 'kite'
+local window = require 'kite.window'
 
 
 local game = {}
@@ -13,6 +14,17 @@ function game.mouse(what, x, y, who)
 end
 
 function game.keyboard(key, what)
+	if what == 'press' then
+		if key == 'q' then
+			window.set_icon('examples/asset/icon.png')
+		elseif key == 'a' then
+			window.set_title('HHHHHHHHHHHHHH')
+		elseif key == 'r' then
+			window.resize(800, 300)
+		elseif key == 'f' then
+			window.fullscreen()
+		end
+	end
 end
 
 function game.textinput(char)

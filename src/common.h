@@ -14,6 +14,7 @@
 #include <lauxlib.h>
 #include <lualib.h>
 
+#include <stb_image.h>
 
 static inline void
 ASSERT(int ok, const char * msg) {

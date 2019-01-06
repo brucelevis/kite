@@ -9,6 +9,7 @@ SRC := \
 
 LUACLIB := \
 	luaclib/lkite.c \
+	luaclib/lwindow.c \
 	# luaclib/lgraphics.c \
 	# luaclib/lfont.c \
 	# luaclib/laudio.c \

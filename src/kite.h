@@ -5,8 +5,8 @@
 
 typedef struct
 {	
-	float width;
-	float height;
+	uint32_t width;
+	uint32_t height;
 	bool fullscreen;
 	char *icon;
 	char *title;

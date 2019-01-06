@@ -2,6 +2,7 @@
 #include "game.h"
 
 #include "lkite.h"
+#include "lwindow.h"
 
 
 #define KITE_UPDATE 1
@@ -195,7 +196,7 @@ void
 load_window_conf(lua_State *L) {
 	const char *title;
 	const char *icon;
-	float width, height;
+	uint32_t width, height;
 	bool fullscreen;
 
 	lua_getglobal(L, "application");
@@ -204,12 +205,12 @@ load_window_conf(lua_State *L) {
 
 	lua_pushliteral(L, "width");
 	lua_gettable(L, -2);
-	width = luaL_optnumber(L, -1, 0.f);
+	width = luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
 	lua_pushliteral(L, "height");
 	lua_gettable(L, -2);
-	height = luaL_optnumber(L, -1, 0.f);
+	height = luaL_checkinteger(L, -1);
 	lua_pop(L, 1);
 
 	lua_pushliteral(L, "title");
@@ -268,10 +269,12 @@ kite_init(const char *gamedir) {
 	lua_State *L = kite->L;
 	luaL_openlibs(L);
 	luaL_requiref(L, "kite.core", lib_kite, 0);
+	luaL_requiref(L, "window.core", lib_window, 0);
+
 	// luaL_requiref(L, "graphics.core", lib_graphics, 0);
 	// luaL_requiref(L, "font.core", lib_font, 0);
 	// luaL_requiref(L, "audio.core", lib_audio, 0);
-	lua_pop(L, 1);
+	lua_pop(L, 2);
 	if (load_conf(L, gamedir) || load_main(L, gamedir)) {
 		return 1;
 	}

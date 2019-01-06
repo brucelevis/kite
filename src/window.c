@@ -1,5 +1,4 @@
 #define STB_IMAGE_IMPLEMENTATION 
-#include <stb_image.h>
 
 #include "window.h"
 #include "game.h"
@@ -25,7 +24,7 @@ window_init() {
 	GLFWmonitor *monitor;
 	const GLFWvidmode *display;
 	const char *title;
-	float width, height;
+	uint32_t width, height;
 	bool fullscreen;
 	
 	width = G->kite->conf.window.width;
@@ -91,6 +90,8 @@ window_init() {
 	window->title = title;
 	window->fullscreen = fullscreen;
 	window->handle = handle;
+
+	window->monitor = monitor;
 	window->display = display;
 	return 0;
 }
