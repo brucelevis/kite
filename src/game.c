@@ -14,7 +14,7 @@ game_run() {
 		G->time = now;
 		G->kite->update(dt);
 		
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT);
 	
 
 		glfwPollEvents();
