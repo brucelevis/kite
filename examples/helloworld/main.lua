@@ -3,31 +3,26 @@ local window = require 'kite.window'
 local gfx = require 'kite.graphics'
 
 
+local helloworld = gfx.sprite{
+	x = 100,
+	y = 100,
+	texname = 'examples/asset/icon.png'
+}
+
 local game = {}
 
 function game.update(dt)
 end
 
 function game.draw()
-	gfx.clear(0xffffffff)
-	gfx.draw('examples/asset/icon.png', 100, 100)
+	gfx.clear(0)
+	helloworld.draw()
 end
 
 function game.mouse(what, x, y, who)
 end
 
 function game.keyboard(key, what)
-	if what == 'press' then
-		if key == 'q' then
-			window.set_icon('examples/asset/icon.png')
-		elseif key == 'a' then
-			window.set_title('HHHHHHHHHHHHHH')
-		elseif key == 'r' then
-			window.resize(800, 300)
-		elseif key == 'f' then
-			window.fullscreen()
-		end
-	end
 end
 
 function game.textinput(char)

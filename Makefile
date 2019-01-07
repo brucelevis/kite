@@ -8,14 +8,15 @@ SRC := \
 	src/window.c \
 	src/util.c \
 	src/renderer.c \
-	src/renderer/manager.c \
 
 LUACLIB := \
 	luaclib/lkite.c \
 	luaclib/lwindow.c \
 	luaclib/lgraphics.c \
-	# luaclib/lfont.c \
-	# luaclib/laudio.c \
+	luaclib/lsprite2d.c \
+	luaclib/lmatrix.c \
+	luaclib/lprogram.c \
+
 
 
 LUASRC := \

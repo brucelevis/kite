@@ -4,6 +4,9 @@
 #include "lkite.h"
 #include "lwindow.h"
 #include "lgraphics.h"
+#include "lsprite2d.h"
+#include "lmatrix.h"
+#include "lprogram.h"
 
 
 #define KITE_UPDATE 1
@@ -272,7 +275,10 @@ kite_init(const char *gamedir) {
 	luaL_requiref(L, "kite.core", lib_kite, 0);
 	luaL_requiref(L, "window.core", lib_window, 0);
 	luaL_requiref(L, "graphics.core", lib_graphics, 0);
-	lua_pop(L, 3);
+	luaL_requiref(L, "sprite2d.core", lib_sprite2d, 0);
+	luaL_requiref(L, "matrix.core", lib_matrix, 0);
+	luaL_requiref(L, "program.core", lib_program, 0);
+	lua_pop(L, 6);
 	if (load_conf(L, gamedir) || load_main(L, gamedir)) {
 		return 1;
 	}

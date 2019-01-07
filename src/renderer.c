@@ -19,16 +19,6 @@ renderer_bind_texture(GLuint texture) {
 void
 renderer_flush() {
 	if (renderer->batch.count == 0) return;
-	switch (renderer->batch.program) {
-		case PROGRAM_SPRITE: {
-			renderer->manager->use_sprite_program(renderer->batch.color);
-			break;
-		}
-		case PROGRAM_TEXT: {
-			renderer->manager->use_text_program(renderer->batch.color);
-			break;
-		}
-	}
 	renderer_bind_texture(renderer->batch.texture);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, ITEM_SIZE*renderer->batch.count, renderer->batch.vertices);
 	glDrawElements(GL_TRIANGLES, 6 * renderer->batch.count, GL_UNSIGNED_INT, 0);
@@ -38,19 +28,13 @@ renderer_flush() {
 
 
 void
-renderer_draw(float *vertices, GLuint texture, uint32_t color, int program) {
-	if (renderer->batch.count == 0) {
-		renderer->batch.program = program;
-		renderer->batch.texture = texture;
-		renderer->batch.color = color;
-	} else if ((program != renderer->batch.program) || (color != renderer->batch.color) ||
-			   (texture != renderer->batch.texture) || (renderer->batch.count == MAX_BATCH_SLOT)) {
+renderer_draw(Sprite2D *sprite) {
+	if ((sprite->texture != renderer->batch.texture) || (renderer->batch.count == MAX_BATCH_SLOT)) {
 		renderer_flush();
-		renderer->batch.program = program;
-		renderer->batch.texture = texture;
-		renderer->batch.color = color;
 	}
-	memcpy(renderer->batch.vertices + ITEM_SIZE/sizeof(float) * renderer->batch.count, vertices, ITEM_SIZE);
+	renderer->batch.texture = sprite->texture;
+
+	memcpy(renderer->batch.vertices + ITEM_SIZE/sizeof(float) * renderer->batch.count, sprite->p0, ITEM_SIZE);
 	renderer->batch.count += 1;
 }
 
@@ -83,11 +67,6 @@ renderer_init() {
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	// glEnable(GL_STENCIL_TEST);
-	// glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-	glEnable(GL_DEPTH_TEST);
-	glDepthMask(GL_FALSE);
-	glDepthFunc(GL_ALWAYS);
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
@@ -129,7 +108,6 @@ renderer_init() {
 
 void
 renderer_destroy() {
-	renderer->manager->destroy();
 	glDeleteVertexArrays(1, &renderer->vao);
 	glDeleteBuffers(1, &renderer->vbo);
 	glDeleteBuffers(1, &renderer->ebo);
@@ -146,17 +124,12 @@ create_renderer() {
 		return NULL;
 	}
 
+	renderer->batch.count = 0;
+	renderer->batch.texture = 0;
+
 	renderer->cur_texture = 0;
 	renderer->drawc = 0;
-	renderer->manager = create_manager();
 
-	if (renderer->manager == NULL) {
-		glDeleteVertexArrays(1, &renderer->vao);
-		glDeleteBuffers(1, &renderer->vbo);
-		glDeleteBuffers(1, &renderer->ebo);
-		free(renderer);
-		return NULL;
-	}
 	renderer->bind_texture = renderer_bind_texture;
 	renderer->draw = renderer_draw;
 	renderer->flush = renderer_flush;
