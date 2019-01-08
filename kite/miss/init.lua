@@ -12,6 +12,7 @@ local M = {}
 function M.update()
 end
 
+-- test ui
 local ui = {
 	type = 'div', id = 'app',
 	{type='img', src='resource/icon.png', width=100, height=100, style={float='left'}},
@@ -64,8 +65,8 @@ local function draw_widget(style, widget)
 end
 
 function M.draw()
-	local style = {x=0, y=window.height, w=0, h=0}
-	draw_widget(style, ui)
+	-- local style = {x=0, y=window.height, w=0, h=0}
+	-- draw_widget(style, ui)
 end
 
 

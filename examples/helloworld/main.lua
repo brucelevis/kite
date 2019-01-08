@@ -1,18 +1,18 @@
 local kite = require 'kite'
 local window = require 'kite.window'
 local gfx = require 'kite.graphics'
+local bmpfont = require "kite.bmpfont"
 
 
-local sp = {}
+-- the scale should be uint, this font size is 16px
+local generic = bmpfont.create('examples/asset/generic.fnt', 'examples/asset/generic_0.png', 3)
 
-for i=1,1 do
-	local helloworld = gfx.sprite{
-		x = 480,
-		y = 320,
-		texname = 'resource/icon.png'
-	}
-	table.insert(sp, helloworld)	
-end
+
+local helloworld = gfx.sprite{
+	x = 480,
+	y = 420,
+	texname = 'resource/icon.png'
+}
 
 local game = {}
 
@@ -21,10 +21,10 @@ function game.update(dt)
 end
 
 function game.draw()
-	gfx.clear(0)
-	for i,v in ipairs(sp) do
-		v.draw()
-	end
+	
+	gfx.clear(0x000000ff)
+	helloworld.draw()
+	generic.print('Hello World!', 480-100, 200)
 end
 
 function game.mouse(what, x, y, who)

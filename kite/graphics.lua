@@ -1,21 +1,10 @@
 local core = require 'graphics.core'
 local sprite2d = require "sprite2d.core"
 local mgr = require "kite.manager"
+local shader = mgr.program.sprite
 
 
-local program = {
-	sprite = mgr.create_sprite_program()
-	--
-	-- your program here
-	--
-}
-
-
-
-local M = {
-	program = program
-}
-
+local M = {}
 
 local textures = {}
 
@@ -43,7 +32,9 @@ function M.sprite(t)
 		w = t.w or tex.w,
 		h = t.h or tex.h,
 		color = t.color or 0xffffffff,
-		texcoord = t.texcoord or {0,1, 0,0, 1,0, 1,1}
+		texcoord = t.texcoord or {0,1, 0,0, 1,0, 1,1},
+
+		border = t.border
 	}
 
 	local x1 = self.x - self.ax*self.w
@@ -56,8 +47,42 @@ function M.sprite(t)
 		x1 + self.w, y1 + self.h,
 		table.unpack(self.texcoord))
 
+	function self.pos(x, y)
+		if x == self.x and y == self.y then return end
+		self.x = x
+		self.y = y
+		local x1 = self.x - self.ax*self.w
+		local y1 = self.y - self.ay*self.h
+		
+		sprite2d.set_position(
+				self.id,
+				x1, y1 + self.h,
+				x1, y1,
+				x1 + self.w, y1,
+				x1 + self.w, y1 + self.h
+			)
+	end
+
 	function self.draw()
-		program.sprite.set_color(self.color)
+		if self.border then
+			local x = self.x
+			local y = self.y
+			shader.set_color(self.border.color)
+
+			self.pos(x-self.border.size, y)
+			core.draw(self.id)
+			
+			self.pos(x+self.border.size, y)
+			core.draw(self.id)
+			
+			self.pos(x, y-self.border.size)
+			core.draw(self.id)
+			
+			self.pos(x, y+self.border.size)
+			core.draw(self.id)
+		end
+
+		shader.set_color(self.color)
 		M.draw(self.id)
 	end
 

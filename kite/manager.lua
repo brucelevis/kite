@@ -76,8 +76,14 @@ end
 
 
 
-
-
-
+----------------------------------------------------------------
+-- loaded program
+----------------------------------------------------------------
+M.program = {
+	sprite = M.create_sprite_program()
+	--
+	-- your program here
+	--
+}
 
 return setmetatable(M, {__index = core})
