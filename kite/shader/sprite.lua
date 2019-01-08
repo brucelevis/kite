@@ -22,14 +22,21 @@ in vec2 texcoord;
 
 
 uniform sampler2D texture0;
-uniform vec4 color;
+uniform uint color;
 
 
 void main() {
+
 	vec4 tmp = texture(texture0, texcoord);
-	frag_color.xyz = tmp.xyz * color.xyz;
+
+	float r = float(int(color >> 24) & 0xff)/255;
+	float g = float(int(color >> 16) & 0xff)/255;
+	float b = float(int(color >> 8) & 0xff)/255;
+	float a = float(int(color) & 0xff)/255;
+
+	frag_color.xyz = tmp.xyz * vec3(r, g, b);
 	frag_color.w = tmp.w;
-	frag_color *= color.w;
+	frag_color *= a;
 }
 ]]
 

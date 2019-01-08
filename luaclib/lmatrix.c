@@ -2,7 +2,6 @@
 
 
 
-
 static int
 lortho(lua_State *L) {
 	mat4x4 *m;

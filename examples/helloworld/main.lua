@@ -3,20 +3,28 @@ local window = require 'kite.window'
 local gfx = require 'kite.graphics'
 
 
-local helloworld = gfx.sprite{
-	x = 100,
-	y = 100,
-	texname = 'examples/asset/icon.png'
-}
+local sp = {}
+
+for i=1,1 do
+	local helloworld = gfx.sprite{
+		x = 480,
+		y = 320,
+		texname = 'resource/icon.png'
+	}
+	table.insert(sp, helloworld)	
+end
 
 local game = {}
 
 function game.update(dt)
+	-- print(kite.drawcall(), 1//dt)
 end
 
 function game.draw()
 	gfx.clear(0)
-	helloworld.draw()
+	for i,v in ipairs(sp) do
+		v.draw()
+	end
 end
 
 function game.mouse(what, x, y, who)

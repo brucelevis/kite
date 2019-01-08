@@ -1,6 +1,6 @@
 local core = require 'window.core'
 
--- 显示器 宽高
+-- dispaly size
 local display = core.get_display()
 
 

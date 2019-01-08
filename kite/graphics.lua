@@ -1,31 +1,21 @@
 local core = require 'graphics.core'
 local sprite2d = require "sprite2d.core"
-local program = require "program.core"
-local matrix = require "matrix.core"
-local window = require "kite.window"
-
-local function create_sprite_program()
-	local shader = require "kite.shader.sprite"
-	local mat = matrix.ortho(0, window.width, 0, window.height, -1, 1)
-
-	local id = program.create(shader.vs, shader.fs)
-	core.use(id)
-	local texture0 = program.uniform_location(id, "texture0")
-	local projection = program.uniform_location(id, "projection")
-	local color = program.uniform_location(id, "color")
-	
-	program.uniform_1i(texture0, 0)
-	program.uniform_matrix4fv(projection, mat)
-	program.uniform_4f(color, 1, 1, 1, 1)
-
-	return id
-end
+local mgr = require "kite.manager"
 
 
-create_sprite_program()
+local program = {
+	sprite = mgr.create_sprite_program()
+	--
+	-- your program here
+	--
+}
 
 
-local M = {}
+
+local M = {
+	program = program
+}
+
 
 local textures = {}
 
@@ -52,6 +42,7 @@ function M.sprite(t)
 		ay = t.ay or 0.5,
 		w = t.w or tex.w,
 		h = t.h or tex.h,
+		color = t.color or 0xffffffff,
 		texcoord = t.texcoord or {0,1, 0,0, 1,0, 1,1}
 	}
 
@@ -66,6 +57,7 @@ function M.sprite(t)
 		table.unpack(self.texcoord))
 
 	function self.draw()
+		program.sprite.set_color(self.color)
 		M.draw(self.id)
 	end
 

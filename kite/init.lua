@@ -1,4 +1,5 @@
 local core = require "kite.core"
+local miss = require "kite.miss"
 
 local mouse_name = {
 	'left',
@@ -63,8 +64,14 @@ function kite.start(callback)
 
 	local cb = {}
 
-	cb.draw = assert(callback.draw)
-	cb.update = assert(callback.update)
+	cb.draw = function ()
+		callback.draw()
+		miss.draw()
+	end
+	cb.update = function (dt)
+		callback.update(dt)
+		miss.update(dt)
+	end
 
 	cb.mouse = function(what, x, y, who)
 		callback.mouse(mouse_event[what], x, y, who and mouse_name[who])

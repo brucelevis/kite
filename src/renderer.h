@@ -4,7 +4,7 @@
 #include "common.h"
 #include "lsprite2d.h"
 
-#define MAX_BATCH_SLOT 1024
+#define MAX_BATCH_SLOT 512
 
 
 

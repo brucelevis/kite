@@ -55,6 +55,7 @@ ltexture(lua_State *L) {
 static int
 luse (lua_State *L) {
 	uint32_t prog = luaL_checkinteger(L, 1);
+	G->renderer->flush();
 	glUseProgram(prog);
 	return 0;
 }
