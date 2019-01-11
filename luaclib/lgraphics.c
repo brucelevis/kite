@@ -54,14 +54,6 @@ ltexture(lua_State *L) {
 	return 3;
 }
 
-static int
-luse (lua_State *L) {
-	uint32_t prog = luaL_checkinteger(L, 1);
-	G->renderer->flush();
-	glUseProgram(prog);
-	return 0;
-}
-
 
 int
 lib_graphics(lua_State *L)
@@ -70,7 +62,6 @@ lib_graphics(lua_State *L)
 		{"draw", ldraw},
 		{"clear", lclear},
 		{"texture", ltexture},
-		{"use", luse},
 		{NULL, NULL}
 	};
 	luaL_newlib(L, l);

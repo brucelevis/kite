@@ -115,6 +115,15 @@ luniform_location(lua_State *L) {
 }
 
 
+static int
+lactive(lua_State *L) {
+	uint32_t prog = luaL_checkinteger(L, 1);
+	G->renderer->flush();
+	glUseProgram(prog);
+	return 0;
+}
+
+
 uint32_t
 create_shader(GLenum type, const char *data, int sz) {
 	GLuint shader = glCreateShader(type);
@@ -177,6 +186,7 @@ lib_program(lua_State *L)
 		{"uniform_1i", luniform_1i},
 		{"uniform_matrix4fv", luniform_matrix4fv},
 		{"uniform_location", luniform_location},
+		{"active", lactive},
 		{"create", lcreate},
 		{NULL, NULL}
 	};

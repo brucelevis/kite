@@ -1,11 +1,11 @@
 -------------------------------------------------------------------
 --
--- miss is ui framework like web
+-- miss is ui framework like html (to do)
 --
 -------------------------------------------------------------------
 local window = require "kite.window"
 local gfx = require "kite.graphics"
-
+local program = (require "kite.manager.program").get_sprite_program()
 
 local M = {}
 
@@ -65,6 +65,7 @@ local function draw_widget(style, widget)
 end
 
 function M.draw()
+	-- program.active()
 	-- local style = {x=0, y=window.height, w=0, h=0}
 	-- draw_widget(style, ui)
 end

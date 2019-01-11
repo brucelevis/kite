@@ -1,29 +1,15 @@
 local core = require 'graphics.core'
 local sprite2d = require "sprite2d.core"
-local mgr = require "kite.manager"
-local shader = mgr.program.sprite
-
+local texmgr = require "kite.manager.texture"
 
 local M = {}
 
-local textures = {}
-
-
-function M.texture(name)
-	local tex = textures[name]
-	if tex then
-		return tex
-	end
-
-	local id, w, h = core.texture(name)
-
-	textures[name] = { id = id, name = name,  w = w, h = h }
-	return textures[name]
-end
-
-
-function M.sprite(t)
-	local tex = M.texture(t.texname or 'resource/white.png')
+--
+-- it's a ptional, you can make your sprite create function
+-- or only use graphics.core and sprite2d.core api
+--
+function M.test_sprite(t)
+	local tex = texmgr.get(t.texname or 'resource/white.png')
 	local self = {
 		x = t.x or 0,
 		y = t.y or 0,
@@ -31,10 +17,7 @@ function M.sprite(t)
 		ay = t.ay or 0.5,
 		w = t.w or tex.w,
 		h = t.h or tex.h,
-		color = t.color or 0xffffffff,
 		texcoord = t.texcoord or {0,1, 0,0, 1,0, 1,1},
-
-		border = t.border
 	}
 
 	local x1 = self.x - self.ax*self.w
@@ -64,29 +47,12 @@ function M.sprite(t)
 	end
 
 	function self.draw()
-		if self.border then
-			local x = self.x
-			local y = self.y
-			shader.set_color(self.border.color)
-
-			self.pos(x-self.border.size, y)
-			core.draw(self.id)
-			
-			self.pos(x+self.border.size, y)
-			core.draw(self.id)
-			
-			self.pos(x, y-self.border.size)
-			core.draw(self.id)
-			
-			self.pos(x, y+self.border.size)
-			core.draw(self.id)
-		end
-
-		shader.set_color(self.color)
-		M.draw(self.id)
+		core.draw(self.id)		
 	end
 
 	return self
 end
 
-return setmetatable(M, {__index = core})
+
+
+return setmetatable(M, {__index = core}) 

@@ -1,4 +1,4 @@
-CFLAGS = -s -O0 -Wall -Isrc -Isrc/renderer -Iluaclib -I3rd/include -I3rd/lua
+CFLAGS = -s -O3 -Wall -Isrc -Isrc/renderer -Iluaclib -I3rd/include -I3rd/lua
 LINK = -L3rd/lib -lglfw3 -lgdi32 -lopengl32
 
 SRC := \

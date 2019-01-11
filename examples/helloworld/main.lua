@@ -1,18 +1,30 @@
-local kite = require 'kite'
-local window = require 'kite.window'
-local gfx = require 'kite.graphics'
-local bmpfont = require "kite.bmpfont"
+local kite = require "kite"
+local gfx = require "kite.graphics"
+local progmgr = require "kite.manager.program"
+local fontmgr = require "kite.manager.font"
+local widget = require "kite.miss.widget"
+local program = (require "kite.manager.program").get_sprite_program()
 
 
--- the scale should be uint, this font size is 16px
-local generic = bmpfont.create('examples/asset/generic.fnt', 'examples/asset/generic_0.png', 3)
+-- load
+fontmgr.load('generic', 'examples/asset/generic.fnt', 'examples/asset/generic_0.png')
 
 
-local helloworld = gfx.sprite{
-	x = 480,
-	y = 420,
-	texname = 'resource/icon.png'
-}
+local helloworld = gfx.test_sprite {
+		x = 960,
+		y = 640,
+		w = 100,
+		h = 100,
+		ax = 1,
+		ay = 1,
+		texname = 'resource/icon.png'
+	}
+
+
+local label = widget.text{ font = 'generic', x = 480, y = 320, align = 'center', text = 'Hello World!', size = 32, color=0xbe2137ff }
+
+local button = widget.button { x = 480-100/2, y = 200, w = 100, h = 32, text='button' }
+
 
 local game = {}
 
@@ -21,16 +33,30 @@ function game.update(dt)
 end
 
 function game.draw()
-	
-	gfx.clear(0x000000ff)
+	gfx.clear(0xf5f5f5ff)
+
+	program.set_color(0xffffffff)
 	helloworld.draw()
-	generic.print('Hello World!', 480-100, 200)
+
+	label.draw()
+	button.draw()
 end
 
 function game.mouse(what, x, y, who)
 end
 
 function game.keyboard(key, what)
+	if what == 'release' and key == 'escape' then
+		kite.exit()
+	end
+
+	if what == 'release' then
+		if key == 'a' then
+			button('mouse_enter')
+		elseif key == 'b' then
+			button('mouse_leave')
+		end
+	end
 end
 
 function game.textinput(char)
